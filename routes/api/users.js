@@ -74,7 +74,7 @@ router.post('/login', (req, res) => {
                 bcrypt.compare(password, user.password)
                     .then(isMatch => {
                         if (isMatch) {
-                            const payload = { id: user.id, name: user.name ,avatar:user.avatar}
+                            const payload = { id: user.id, name: user.name, avatar: user.avatar }
                             jwt.sign(payload, keys.secret, { expiresIn: 3600 }, (err, token) => {
                                 res.json({ success: true, token: "Bearer " + token })
                             })
@@ -96,9 +96,58 @@ router.get('/current', passport.authenticate("jwt", { session: false }), (req, r
         id: req.user.id,
         name: req.user.name,
         email: req.user.email,
-        avatar:req.user.avatar
+        avatar: req.user.avatar
     })
 
 })
+
+// @route  GET /api/users/all
+// @desc    获取所有联系人信息
+// @access  private
+router.get('/all', passport.authenticate("jwt", { session: false }), (req, res) => {
+    User.find()
+        .then(users => {
+            if (!users) {
+                return res.status(404).json({ message: '没有任何用户信息' })
+            }
+            const newUsers = []
+            for (const user of users) {
+                newUsers.push({
+                    name: user.name,
+                    _id: user._id,
+                    email: user.email,
+                    avatar: user.avatar,
+                    date: user.date
+                })
+            }
+            res.json(newUsers)
+        })
+        .catch(err => res.status(404).json({ message: '没有任何用户信息' }))
+})
+
+// @route   GET api/users/:user_id
+// @desc    通过user_id获取个人信息
+// @access  private
+router.get(
+    '/:user_id',
+    passport.authenticate("jwt", { session: false }),
+    (req, res) => {
+        User.findOne({ _id: req.params.user_id })
+            .populate('user', ['name', 'avatar'])
+            .then(user => {
+                if (!user) {
+                    return res.status(404).json({ message: '未找到该用户信息' })
+                }
+                res.json({
+                    name: user.name,
+                    _id: user._id,
+                    email: user.email,
+                    avatar: user.avatar,
+                    date: user.date
+                })
+            })
+            .catch(err => res.status(404).json(err))
+    }
+)
 
 module.exports = router

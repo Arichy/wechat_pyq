@@ -3,7 +3,8 @@
     "client-install": "npm install --prefix client",
     "client": "npm start --prefix client",
     "server": "nodemon server.js",
-    "dev": "concurrently \"npm run server\" \"npm run client\" "
+    "socket": "nodemon ws.js",
+    "dev": "concurrently \"npm run server\" \"npm run socket\" \"npm run client\" "
   },
   "dependencies": {
     "bcrypt": "^3.0.5",
@@ -13,7 +14,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.4.19",
     "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "ws": "^6.2.0"
   },
   "devDependencies": {
     "concurrently": "^4.1.0"

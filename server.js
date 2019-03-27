@@ -12,6 +12,8 @@ app.use(bodyParser.json({ limit: '50mb' }))
 const users = require('./routes/api/users')
 // api profiles
 const profiles = require('./routes/api/profiles')
+// api message
+const messages = require('./routes/api/messages')
 
 // passport middleware
 app.use(passport.initialize())
@@ -30,5 +32,6 @@ mongoose.connect(db, { useNewUrlParser: true })
 
 app.use('/api/users', users)
 app.use('/api/profiles', profiles)
+app.use('/api/messages', messages)
 
 app.listen(5000, () => console.log('Server listening on port 5000'))

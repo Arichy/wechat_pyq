@@ -27,4 +27,16 @@
     <div>朋友圈</div>
     <img width="150" src="./imgs/朋友圈2.png">
     </li>
+    <li>
+    <div>聊天</div>
+    <img width="150" src="./imgs/聊天.png">
+    </li>
+    <li>
+    <div>详细资料</div>
+    <img width="150" src="./imgs/详细资料.png">
+    </li>
+    <li>
+    <div>通讯录</div>
+    <img width="150" src="./imgs/通讯录.png">
+    </li>
 </ul>
